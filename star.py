@@ -6,6 +6,12 @@ def car(l):
     except IndexError:
         return []
 
+def car_none(l):
+    try:
+        return l[0]
+    except IndexError:
+        return None
+
 def cdr(l):
     return l[1:]
 
@@ -94,7 +100,6 @@ def member(a, l):
     else:
         return member(a, car(l)) or  member(a, cdr(l))
 
-
 def insl_star(old, new, lat):
     if not lat:
         return
@@ -106,11 +111,35 @@ def insl_star(old, new, lat):
         else:
             return cons([car(lat)], insl_star(old, new, cdr(lat)))
 
+def leftmost(l):
+    if not l:
+        return False
+    elif not isinstance(car(l), list):
+        return car(l)
+    else:
+        return leftmost(car(l))
+
+
+def eqlist(l,m):
+    #pdb.set_trace()
+    if not l and not m:
+        return True
+    elif not isinstance(car_none(l), list) and not isinstance(car_none(l), list):
+        if car_none(l) == car_none(m):
+            return eqlist(cdr(l), cdr(m))
+        else:
+            return False
+    elif isinstance(car_none(l), list) and isinstance(car_none(l), list):
+        return eqlist(car_none(l), car_none(m)) and eqlist(cdr(l), cdr(m))
+    else:
+        return False
+
 #l = ['is', ['is', ['is']]]
-l=['is', ['is', 'is'], [['it', 'is']]]
-k = ['this', 'it', 'it']
-print insl_star('it', 'his', l)
+l=['a', ['b', ['c']]]
+m=['a', ['b', ['c']]]
+print eqlist(l, m)
 '''
+print insl_star('it', 'his', l)
 l = ['is', ['is', 'also']]
 print rember_star('it', l)
 
